@@ -40,7 +40,7 @@ var enabledExt = autoBind({
 		var useColors = this.useColors;
 
 		if (useColors) {
-			log('  \u001b[3' + this.color + ';1m' + debug.humanize(now() - this.startTime) +
+			log(' \u001b[3' + this.color + ';1m' + debug.humanize(now() - this.startTime) +
 				'\u001b[0m\n');
 		} else {
 			log(' ' + debug.humanize(now() - this.startTime) + '\n');
