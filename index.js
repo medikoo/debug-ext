@@ -46,7 +46,7 @@ var enabledExt = autoBind({
 			log(' ' + debug.humanize(now() - this.startTime) + '\n');
 		}
 	})
-});
+}, { overwriteDefinition: true });
 
 var disabledExt = {
 	open: d(Function.prototype),
