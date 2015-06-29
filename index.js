@@ -1,8 +1,9 @@
 'use strict';
 
-var d       = require('d')
-  , memoize = require('memoizee/plain')
-  , debug   = require('debug')
+var d        = require('d')
+  , autoBind = require('d/auto-bind')
+  , memoize  = require('memoizee/plain')
+  , debug    = require('debug')
 
   , now = Date.now, defineProperties = Object.defineProperties
   , log = process.stdout.write.bind(process.stdout);
@@ -25,7 +26,7 @@ debug.formatArgs = function () {
 	return args;
 };
 
-var enabledExt = {
+var enabledExt = autoBind({
 	open: d(function () {
 		var originalLog = this.log;
 		this.log = log;
@@ -45,7 +46,7 @@ var enabledExt = {
 			log(' ' + debug.humanize(now() - this.startTime) + '\n');
 		}
 	})
-};
+});
 
 var disabledExt = {
 	open: d(Function.prototype),
