@@ -1,12 +1,13 @@
 'use strict';
 
-var d        = require('d')
+var util     = require('util')
+  , d        = require('d')
   , autoBind = require('d/auto-bind')
   , memoize  = require('memoizee/plain')
   , debug    = require('debug')
 
   , now = Date.now, defineProperties = Object.defineProperties
-  , log = process.stdout.write.bind(process.stdout);
+  , log = function () { process.stdout.write(util.format.apply(this, arguments)); };
 
 // Strip execution time output
 debug.formatArgs = function () {
