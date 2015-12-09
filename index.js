@@ -1,13 +1,17 @@
 'use strict';
 
-var util     = require('util')
+var aFrom    = require('es5-ext/array/from')
+  , includes = require('es5-ext/array/#/contains')
+  , remove   = require('es5-ext/array/#/remove')
+  , util     = require('util')
   , d        = require('d')
   , autoBind = require('d/auto-bind')
   , memoize  = require('memoizee/plain')
   , debug    = require('debug')
 
   , now = Date.now, defineProperties = Object.defineProperties
-  , log = function () { process.stdout.write(util.format.apply(this, arguments)); };
+  , log = function () { process.stdout.write(util.format.apply(this, arguments)); }
+  , colors = aFrom(debug.colors), prevColor = 0;
 
 // Strip execution time output
 debug.formatArgs = function () {
@@ -55,7 +59,14 @@ var disabledExt = {
 	close: d(Function.prototype)
 };
 
-module.exports = memoize(function (namespace) {
-	var original = debug(namespace);
+module.exports = memoize(function (namespace/*, color*/) {
+	var original = debug(namespace), color = arguments[1];
+	if (color == null) {
+		color = colors[prevColor++ % colors.length];
+	} else {
+		if (!includes.call(debug.colors, color)) throw new TypeError("Unrecognized color");
+		remove.call(colors, color);
+	}
+	original.color = color;
 	return defineProperties(original, original.enabled ? enabledExt : disabledExt);
-});
+}, { length: 1 });
