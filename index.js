@@ -40,7 +40,7 @@ var enabledExt = autoBind({
 		log(' ');
 		this.log = originalLog;
 	}),
-	progress: d(function () { log('.'); }),
+	progress: d(function (mark) { log(mark || '.'); }),
 	close: d(function () {
 		var useColors = this.useColors;
 
