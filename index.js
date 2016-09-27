@@ -1,6 +1,7 @@
 'use strict';
 
-var aFrom    = require('es5-ext/array/from')
+var assign   = require('es5-ext/object/assign')
+  , aFrom    = require('es5-ext/array/from')
   , includes = require('es5-ext/array/#/contains')
   , remove   = require('es5-ext/array/#/remove')
   , util     = require('util')
@@ -59,7 +60,7 @@ var disabledExt = {
 	close: d(Function.prototype)
 };
 
-module.exports = memoize(function (namespace/*, color*/) {
+module.exports = assign(memoize(function (namespace/*, color*/) {
 	var original = debug(namespace), color = arguments[1];
 	if (color == null) {
 		color = colors[prevColor++ % colors.length];
@@ -69,4 +70,4 @@ module.exports = memoize(function (namespace/*, color*/) {
 	}
 	original.color = color;
 	return defineProperties(original, original.enabled ? enabledExt : disabledExt);
-}, { length: 1 });
+}, { length: 1 }), debug);
